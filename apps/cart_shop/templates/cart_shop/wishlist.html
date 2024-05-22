@@ -1,0 +1,72 @@
+{% extends 'cart_shop/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="hero-wrap hero-bread" style="background-image: url({% static 'shop/images/bg_1.jpg' %});">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="{% url 'home:index' %}>Home</a></span> <span>Wishlist</span></p>
+            <h1 class="mb-0 bread">My Wishlist</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<td class="cart-list">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>&nbsp;</th>
+						        <th>Product List</th>
+						        <th>&nbsp;</th>
+								<th>Price</th>
+						        <th>Discount </th>
+								<th>Total </th>
+						      </tr>
+						    </thead>
+						    <td>
+
+							{% for item in wishlist_item %}
+    							<tr class="text-center">
+      							<td class="product-remove"><a href="{% url 'cart_shop:del_from_wishlist' item.id %}"><span class="ion-ios-close"></span></a></td>
+
+      							<td class="image-prod"><div class="img" style="background-image:url({{item.product.image.url}});"></div></td>
+
+      							<td class="product-name">
+          							<h3>{{item.product.name}}</h3>
+          							<p>{{item.product.description}}</p>
+      							</td>
+
+      							<td class="price">${{item.product.price}}</td>
+								{% if item.product.discount %}
+									{% widthratio item.product.discount 1 -1 as revers %}
+
+      								<td class="discount"> {{item.product.discount}}% / ${% widthratio item.product.price 100 item.product.discount %} </td>
+									<td class="total">${% widthratio item.product.price 100 revers|add:100 %}</td>
+
+								{% else %}
+									<td class="discount">  </td>
+									<td class="total">${{item.product.price}} </td>
+    							</tr><!-- END TR-->
+								{% endif %}
+							{%endfor%}
+
+
+
+
+
+							</tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+			</div>
+		</section>
+
+{% endblock %}
